@@ -1,0 +1,3 @@
+../Core/Src/kbd.c:17:6:KBD_Init	2
+../Core/Src/kbd.c:48:10:KBD_Get	3
+../Core/Src/kbd.c:64:9:KBD_ButtonStatus	6

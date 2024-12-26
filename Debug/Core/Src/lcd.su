@@ -1,0 +1,9 @@
+../Core/Src/lcd.c:21:13:get_label_name	24	static
+../Core/Src/lcd.c:103:13:get_window_name_from_index	24	static
+../Core/Src/lcd.c:113:6:LCD_DisplayText	304	static
+../Core/Src/lcd.c:132:6:LCD_DisplayImage	280	static
+../Core/Src/lcd.c:151:6:LCD_DisplayIcon	160	static
+../Core/Src/lcd.c:171:6:LCD_DisplayNewPatientSelection	8	static
+../Core/Src/lcd.c:187:6:LCD_DisplayNewPatientSelectionMenu	16	static
+../Core/Src/lcd.c:204:6:LCD_DisplayConfirmNewPatient	8	static
+../Core/Src/lcd.c:220:6:LCD_DisplayFlashErasingScreen	8	static
