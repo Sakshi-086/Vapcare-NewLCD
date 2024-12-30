@@ -1,2 +1,1 @@
-../Core/Src/vapcare.c:34:6:VAPCARE_VerifyNewPatientRoutine	6
-../Core/Src/vapcare.c:83:6:VAPCARE_ConfirmNewPatientRoutine	4
+../Core/Src/vapcare.c:3:6:VAPCARE_VerifyNewPatientRoutine	1

@@ -62,66 +62,65 @@ const char* get_window_name_from_index(uint16_t index);
 
 // Image Index Definitions with New Index Values (Old Index Value Commented)
 #define NEW_PATIENT_IMAGE_INDEX        				1  // Old: 11
-#define CONFIRM_NEW_PATIENT_IMAGE_INDEX 			2  // Old: 12
-#define ERASING_OLD_DATA_IMAGE_INDEX   				3  // Old: 13
-#define CLAMP_TUBES_IMAGE_INDEX_1      				4  // Old: 14
-#define CLAMP_TUBES_IMAGE_INDEX_2      				5  // Old: 12
-#define ALERT_SCREEN_IMAGE_INDEX       				6  // Old: 31
-#define ERROR_SCREEN_IMAGE_INDEX       				7  // Old: 31
-#define SETTINGS_SCREEN_1_IMAGE_INDEX  				8  // Old: 33
-#define SETTINGS_SCREEN_2_IMAGE_INDEX  				9  // Old: 34
-#define SETTINGS_SHUTDOWN_CONFIRM_IMAGE_INDEX 		10  // Old: 12
-#define SHUTDOWN_IMAGE_INDEX           				11  // Old: 13
-#define STAND_BY_IMAGE_INDEX           				12  // Old: 13
-#define DATA_RETRIEVE_IMAGE_INDEX      				13  // Old: 6
-#define RECALIBRATE_SENSOR_IMAGE_INDEX 				14  // Old: 6
-#define POWER_ON_SELF_TEST_IMAGE_INDEX 				15  // Old: 10
-#define REMOVE_SENSOR_TUBE_SCREEN_IMAGE_INDEX 		16  // Old: 6
-#define SELF_TEST_SCREEN_IMAGE_INDEX   				17  // Old: 6
-#define CONNECT_LUMEN_SCREEN_IMAGE_INDEX 			18  // Old: 9
-#define START_SUCTION_SCREEN_IMAGE_INDEX 			19  // Old: 8
-#define SUCTION_SCREEN_IMAGE_INDEX     				20  // Old: 13
-#define SAVE_CHANGES_SCREEN_IMAGE_INDEX 			21  // Old: 11
-#define SUCTION_SETTINGS_SCREEN_IMAGE_INDEX 		22  // Old: 11
-#define CALIBRATION_SETTINGS_SCREEN_IMAGE_INDEX 	23  // Old: 11
-#define PAUSE_MAIN_SCREEN_IMAGE_INDEX  				24  // Old: 9
-#define PAUSE_CONNECTION_SCREEN_IMAGE_INDEX 		25  // Old: 11
-#define JAR_CONNECTION_IMAGE_INDEX     				26  // Old: 6
-#define REPLACE_LAVAGE_FLUID_IMAGE_INDEX 			27  // Old: 6
-#define SENSOR_PLACEMENT_IMAGE_INDEX   				28  // Old: 6
-#define DETACH_PATIENT_IMAGE_INDEX     				29  // Old: 15
-#define DETACH_PATIENT_CONFIRM_IMAGE_INDEX 			30  // Old: 17
-#define DETACH_PATIENT_STEPS_IMAGE_INDEX 			31  // Old: 6
-#define SYSTEM_SHUT_IMAGE_INDEX        				32  // Old: 6
-#define ALERT_NON_CLEARABLE_IMAGE_INDEX 			33  // Old: 6
-#define PLACE_SENSOR_TUBES_IMAGE_INDEX 				34  // Old: 6
-#define CONNECT_SENSOR_JAR_TUBES_IMAGE_INDEX 		35  // Old: 6
-#define EMERGENCY_SUCTION_IMAGE_INDEX  				36  // Old: 5
-#define WELCOME_SCREEN_IMAGE_INDEX     				37  // Old: 6
-#define UNCLAMP_TUBES_IMAGE_INDEX      				38  // Old: 16
-#define PARAMETER_SCREEN_IMAGE_INDEX   				39  // Old: 17
-#define SAVE_CONFIRMATION_IMAGE_INDEX  				40  // Old: 17
-#define BEGIN_SUCTION_IMAGE_INDEX      				41  // Old: 19
-#define ORAL_SET_IMAGE_INDEX           				42  // Old: 20
-#define INSIDE_ET_TUBE_BRUSHING_SUCTION_IMAGE_INDEX 43  // Old: 21
-#define ORO_SUCTION_IMAGE_INDEX        				44  // Old: 23
-#define SUB_SET_IMAGE_INDEX            				45  // Old: 24
-#define SUB_SUCTION_IMAGE_INDEX        				46  // Old: 25
-#define IDLE_SCREEN_IMAGE_INDEX        				47  // Old: 26
-#define LAVAGE_SPRINKLING_IMAGE_INDEX  				48  // Old: 36
-#define LAVAGE_SUCTION_IMAGE_INDEX     				49  // Old: 28
-#define PAUSE_SCREEN_IMAGE_INDEX       				50  // Old: 29
-#define PAUSE_AND_ALERT_SCREEN_IMAGE_INDEX 			51  // Old: 32
-#define LEAKAGE_CHECK_AFTER_PAUSE_IMAGE_INDEX 		52  // Old: 30
-#define SETTINGS_SCREEN_IMAGE_INDEX   	 			53  // Old: 12
-#define BACK_CONFIRMATION_IMAGE_INDEX  				54  // Old: 35
-#define PAUSE_LEAKAGE_CHECK_IMAGE_INDEX 			55  // Old: 13
-#define DETECTING_SENSOR_IMAGE_INDEX   				56  // Old: 13
-#define SETTINGS_SAVE_CONFIRMATION_IMAGE_INDEX 		57  // Old: 12
-#define SETTINGS_SUCTION_OPTION_NOTE_IMAGE_INDEX 	58  // Old: 12
-#define SETTINGS_EXTENDED_LOG_IMAGE_INDEX 			59  // Old: 0
-#define SAVE_SETTINGS_AND_BEGIN_SUCTION_IMAGE_INDEX 60  // Old: 37
-#define ALERT_LOWBAT_SCREEN_IMAGE_INDEX				61  // Old: 31
+#define CONFIRM_NEW_PATIENT_IMAGE_INDEX        		2  // Old: 12
+#define ERASING_OLD_DATA_IMAGE_INDEX        			3  // Old: 13
+#define CLAMP_TUBES_IMAGE_INDEX_1        				4  // Old: 14
+#define CLAMP_TUBES_IMAGE_INDEX_2        				5  // Old: 12
+#define ALERT_SCREEN_IMAGE_INDEX        				6  // Old: 31
+#define ERROR_SCREEN_IMAGE_INDEX        				7  // Old: 31
+#define SETTINGS_SYS_1_IMAGE_INDEX        			8  // Old: 33
+#define SETTINGS_SYS_2_IMAGE_INDEX        			9  // Old: 34
+#define SETTINGS_SHUTDOWN_CONFIRM_IMAGE_INDEX        	10 // Old: 12
+#define SHUTDOWN_IMAGE_INDEX        				11 // Old: 13
+#define STAND_BY_IMAGE_INDEX        				12 // Old: 13
+#define DATA_RETRIEVE_IMAGE_INDEX        			13 // Old: 6
+#define RECALIBRATE_SENSOR_IMAGE_INDEX        		14 // Old: 6
+#define POWER_ON_SELF_TEST_IMAGE_INDEX        		15 // Old: 10
+#define REMOVE_SENSOR_TUBE_SCREEN_IMAGE_INDEX        	16 // Old: 6
+#define SELF_TEST_SCREEN_IMAGE_INDEX        			17 // Old: 6
+#define CONNECT_LUMEN_SCREEN_IMAGE_INDEX        		18 // Old: 9
+#define START_SUCTION_SCREEN_IMAGE_INDEX        		19 // Old: 8
+#define SUCTION_SCREEN_IMAGE_INDEX        			20 // Old: 13
+#define SAVE_CHANGES_SCREEN_IMAGE_INDEX        		21 // Old: 11
+#define SUCTION_SETTINGS_SCREEN_IMAGE_INDEX        		22 // Old: 11
+#define CALIBRATION_SETTINGS_SCREEN_IMAGE_INDEX      	23 // Old: 11
+#define PAUSE_MAIN_SCREEN_IMAGE_INDEX        			24 // Old: 9
+#define PAUSE_CONNECTION_SCREEN_IMAGE_INDEX         	25 // Old: 11
+#define JAR_CONNECTION_IMAGE_INDEX        			26 // Old: 6
+#define REPLACE_LAVAGE_FLUID_IMAGE_INDEX        		27 // Old: 6
+#define SENSOR_PLACEMENT_IMAGE_INDEX        			28 // Old: 6
+#define DETACH_PATIENT_IMAGE_INDEX        			29 // Old: 15
+#define DETACH_PATIENT_CONFIRM_IMAGE_INDEX          	30 // Old: 17
+#define DETACH_PATIENT_STEPS_IMAGE_INDEX        		31 // Old: 6
+#define SYSTEM_SHUT_IMAGE_INDEX        				32 // Old: 6
+#define PLACE_SENSOR_TUBES_IMAGE_INDEX        		33 // Old: 6
+#define CONNECT_SENSOR_JAR_TUBES_IMAGE_INDEX        	34 // Old: 6
+#define EMERGENCY_SUCTION_IMAGE_INDEX        		35 // Old: 5
+#define WELCOME_SCREEN_IMAGE_INDEX        			36 // Old: 6
+#define UNCLAMP_TUBES_IMAGE_INDEX        			37 // Old: 16
+#define PARAMETER_SCREEN_IMAGE_INDEX        		38 // Old: 17
+#define SAVE_CONFIRMATION_IMAGE_INDEX        		39 // Old: 17
+#define BEGIN_SUCTION_IMAGE_INDEX        			40 // Old: 19
+#define INSIDE_ET_TUBE_BRUSHING_SUCTION_IMAGE_INDEX	41 // Old: 21
+#define ORO_SUCTION_IMAGE_INDEX        			42 // Old: 23
+#define SUB_SUCTION_IMAGE_INDEX        			43 // Old: 25
+#define IDLE_SCREEN_IMAGE_INDEX        			44 // Old: 26
+#define LAVAGE_SPRINKLING_IMAGE_INDEX        		45 // Old: 36
+#define LAVAGE_SUCTION_IMAGE_INDEX        			46 // Old: 28
+#define PAUSE_SCREEN_IMAGE_INDEX        			47 // Old: 29
+#define PAUSE_AND_ALERT_SCREEN_IMAGE_INDEX        		48 // Old: 32
+#define LEAKAGE_CHECK_AFTER_PAUSE_IMAGE_INDEX       	49 // Old: 30
+#define SETTINGS_SCREEN_1_IMAGE_INDEX        				50 // Old: 12
+#define SETTINGS_SCREEN_2_IMAGE_INDEX        				51 // Old: 12
+#define BACK_CONFIRMATION_IMAGE_INDEX        		52 // Old: 35
+#define PAUSE_LEAKAGE_CHECK_IMAGE_INDEX        		53 // Old: 13
+#define DETECTING_SENSOR_IMAGE_INDEX        		54 // Old: 13
+#define SETTINGS_SAVE_CONFIRMATION_IMAGE_INDEX      	55 // Old: 12
+#define SETTINGS_SUCTION_OPTION_NOTE_IMAGE_INDEX    	56 // Old: 12
+#define SETTINGS_EXTENDED_LOG_IMAGE_INDEX           	57 // Old: 0
+#define SAVE_SETTINGS_AND_BEGIN_SUCTION_IMAGE_INDEX 	58 // Old: 37
+#define ALERT_LOWBAT_SCREEN_IMAGE_INDEX        		59 // Old: 31
+
 
 //Error definitions
 #define ALERT_ORO_BLOOD_DETECTED						0
@@ -1166,6 +1165,21 @@ const char* get_window_name_from_index(uint16_t index);
 #define RTC_TIME_X												150
 #define RTC_TIME_Y												3
 
+#define TOTAL_TYPE_OF_SUCTIONS							2
+
+#define TOTAL_NUM_OF_TUBES								2
+
+#define SUBGLOTTIC_SUCTION								0
+#define OROPHARYNGEAL_SUCTION							1
+#define CHLORHEXIDINE_SUCTION							2
+#define INSIDE_ET_TUBE_SUCTION							3
+#define BRUSHING_PROTOCOL								4
+#define PORT_BLOCK										5
+#define LAVAGE_PRESSURE									6
+
+#define SETTING_TARGET_PRESSURE							0
+#define SUCTION_PRESSURE								1
+
 void LCD_Initialization(void);
 void open_win(const char* window_name);
 void set_visible_icon(const char *icon_name, uint16_t visible);
@@ -1187,7 +1201,16 @@ void LCD_DisplayAlertScreen1(void);
 void LCD_DisplayAlertScreen2(void);
 void LCD_DisplayBatteryCharge(uint8_t ui8BatteryCharge);
 void LCD_DisplaySettingSystemMenu(uint8_t ui8Row, uint8_t ui8RightArrowStatus, uint8_t ui8LeftArrowStatus,uint8_t ui8RowIconRefreshFlag);
-void VAPCARE_SettingsSystemRoutine(void);
+void LCD_ConfirmParameterAndBeginSuctionScreen(void);
+void LCD_DisplayNewMainSettingsPage1(void);
+void LCD_DisplayNewMainSettingsPage2(void);
+void LCD_DisplayPharyngealPortSuction(void);
+void LCD_DisplaySubglotticPortSuction(void);
+void LCD_DisplayInsideEtTubeSuction(void);
+void LCD_DisplayWaitScreen(void);
+void LCD_DisplayBeginSuction(void);
+void LCD_DisplayPauseScreen(void);
+
 //extra definitions
 #define LCD_HANDSHAKE_CMD										0x00
 #define LCD_HEADER												0xAA

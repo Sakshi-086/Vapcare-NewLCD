@@ -48,49 +48,23 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint8_t ui8DisplayDone = FALSE;
-uint8_t ui8NewPatientStatus = TRUE;
-uint8_t ui8NewTubeStatus = TRUE;
-uint8_t ui8SuctionPerformedStatus = FALSE;
-uint8_t ui8SuctionStatusFlag = OFF;
-int32_t i32TempHSP = HSP_DEFAULT;                  // High System Pressure
-int32_t i32TempLST = LST_DEFAULT;                  // Lavage Settling Time
-int32_t i32TempPressureStep = PRESSURE_STEP_DEFAULT; // Pressure Step
-int32_t i32TempTimeIntervalStep = TIME_INTERVAL_STEP_DEFAULT; // Time Interval Step
-int32_t i32TempOSP;
-int32_t i32TempSSP;
-int32_t i32TempSTI;
-int32_t i32TempLTI;
-int32_t i32TempIETP;
-int32_t i32TempIETS;
-int32_t i32TempBP;
-int32_t i32TempBS;
-int32_t i32TempST;
-
-
-
-uint8_t ui8CalibrationSettingsOption = HSP_OPTION;
-
-int32_t pi32SettingsBuffer[SETTINGS_BUFFER_LEN];
-int32_t i32TempOroPortBlockSettingsStatus;
-int32_t i32TempSubgloticPortBlockSettingsStatus;
-
-int32_t i32TempOroSuctionStat;
-int32_t i32TempSubglotticSuctionStat;
-int32_t i32TempLavageStat;
-
-int32_t i32TempHSP;
-int32_t i32TempATM;
-int32_t i32TempPOF;
-int32_t i32TempSPOF;
-int32_t i32TempPressureStep;
-int32_t i32TempTimeIntervalStep;
-int32_t i32TempLST;
-int32_t i32TempLSInit;
-int32_t i32TempLSCont;
-
-uint8_t ui8Row = ROW1; // Current active row
-uint8_t ui8PrevRow = ROW1;
+  typedef enum {
+      SCREEN_NEW_PATIENT_SELECTION,
+      SCREEN_CONFIRM_NEW_PATIENT,
+	  SCREEN_ERASING_OLD_DATA,
+      SCREEN_CLAMP_TUBES_MAIN,
+      SCREEN_CLAMP_TUBES_PAUSE,
+      SCREEN_UNCLAMP_TUBES,
+      SCREEN_CONFIRM_PARAMETER,
+      SCREEN_BEGIN_SUCTION,
+      SCREEN_SETTINGS,
+	  SCREEN_ORO_PORT,
+	  SCREEN_SUBGLOT_PORT,
+	  SCREEN_ET_PORT,
+	  SCREEN_IDLE,
+	  SCREEN_PAUSED
+  } ScreenState;
+  int currentOption = 1;  // Default to Option 1
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -149,79 +123,478 @@ int main(void)
   MX_USART3_UART_Init();
 //  /* USER CODE BEGIN 2 */
   HAL_Delay(5000); //Fixed Delay
-  LCD_DisplayNewPatientSelection();
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(20);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(65);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(75);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(85);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(100);
-  HAL_Delay(5000);
-  LCD_DisplayConfirmNewPatient();
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(20);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(65);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(75);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(85);
-  HAL_Delay(3000);
-  LCD_DisplayBatteryCharge(100);
-  HAL_Delay(3000);
+  // Define screen states
+
+  ScreenState currentScreen = SCREEN_NEW_PATIENT_SELECTION;  // Start at New Patient Selection
+  ScreenState previousScreen = SCREEN_NEW_PATIENT_SELECTION; // Default to initial screen
+  if (currentScreen == SCREEN_NEW_PATIENT_SELECTION)
+    {
+        LCD_DisplayNewPatientSelection();
+    }
+  while (1)  // Main Loop
+  {
+      switch (currentScreen)
+      {
+          /*
+           * New Patient Selection Screen
+           */
+          case SCREEN_NEW_PATIENT_SELECTION:
+              if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
+              {
+            	  currentOption = 1;
+                  LCD_DisplayNewPatientSelectionMenu(1);  // Highlight Option 1
+                  HAL_Delay(300);
+              }
+              else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
+              {
+            	  currentOption = 2;
+                  LCD_DisplayNewPatientSelectionMenu(2);  // Highlight Option 2
+                  HAL_Delay(300);
+              }
+              else if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+              {
+            	  if(currentOption == 1)
+            	  {
+            		  currentScreen = SCREEN_CONFIRM_NEW_PATIENT;  // Go to Confirm New Patient Screen
+            		  LCD_DisplayConfirmNewPatient();
+            		  HAL_Delay(300);
+            	  }
+            	  else if (currentOption == 2){
+            		  currentScreen = SCREEN_CLAMP_TUBES_MAIN;  // Go to Clamp Tubes Main Screen
+            		  LCD_DisplayClampTubesMain();
+            		  HAL_Delay(300);
+            	  }
+
+              }
+              else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+              {
+                  LCD_DisplayNewPatientSelection();  // Stay on the same screen
+                  HAL_Delay(300);
+              }
+              else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_SETTINGS;  // Go to Settings Screen
+                  LCD_DisplayNewMainSettingsPage1();
+                  HAL_Delay(300);
+              }
+              break;
+
+          /*
+           * Confirm New Patient Screen
+           */
+          case SCREEN_CONFIRM_NEW_PATIENT:
+              if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_ERASING_OLD_DATA;  // Go to Flash Erasing Screen
+                  LCD_DisplayFlashErasingScreen();
+                  HAL_Delay(2000);
+                  currentScreen = SCREEN_CLAMP_TUBES_MAIN;
+                  LCD_DisplayClampTubesMain();
+              }
+              else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_NEW_PATIENT_SELECTION;  // Return to New Patient Selection
+                  LCD_DisplayNewPatientSelection();
+                  HAL_Delay(300);
+              }
+              break;
+
+          /*
+           * Clamp Tubes Main Screen
+           */
+          case SCREEN_CLAMP_TUBES_MAIN:
+              if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_CLAMP_TUBES_PAUSE;  // Go to Clamp Tubes Pause
+                  LCD_DisplayClampTubesPause();
+                  HAL_Delay(300);
+              }
+              else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_NEW_PATIENT_SELECTION;  // Return to New Patient Selection
+                  LCD_DisplayNewPatientSelection();
+                  HAL_Delay(300);
+              }
+              break;
+
+          /*
+           * Clamp Tubes Pause Screen
+           */
+          case SCREEN_CLAMP_TUBES_PAUSE:
+              if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_UNCLAMP_TUBES;  // Go to Unclamp Tubes
+                  LCD_DisplayUnclampTubes();
+                  HAL_Delay(1000);  // 3-second delay
+                  currentScreen = SCREEN_CONFIRM_PARAMETER;  // Go to Confirm Parameter Screen
+                  LCD_ConfirmParameterAndBeginSuctionScreen();
+                  previousScreen=currentScreen;
+              }
+              else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_CLAMP_TUBES_MAIN;  // Return to Clamp Tubes Main
+                  LCD_DisplayClampTubesMain();
+                  HAL_Delay(300);
+              }
+              break;
+
+          /*
+           * Confirm Parameter And Begin Suction Screen
+           */
+          case SCREEN_CONFIRM_PARAMETER:
+              if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_BEGIN_SUCTION;  // Go to Begin Suction Screen
+                  LCD_DisplayBeginSuction();
+                  HAL_Delay(300);
+              }
+              else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_SETTINGS;  // Go to Settings Screen
+                  LCD_DisplayNewMainSettingsPage1();
+                  HAL_Delay(300);
+              }
+              break;
+
+          /*
+           * Begin Suction Screen
+           */
+          case SCREEN_BEGIN_SUCTION:
+              if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+              {
+            	  currentScreen = SCREEN_ORO_PORT;
+                  LCD_DisplayPharyngealPortSuction();  // Navigate to Pharyngeal Port Suction
+//                  HAL_Delay(5000);
+//                  LCD_DisplaySubglotticPortSuction();
+//                  HAL_Delay(5000);
+//                  LCD_DisplayInsideEtTubeSuction();
+//                  HAL_Delay(5000);
+//                  LCD_DisplayWaitScreen();
+              }
+              else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+              {
+                  currentScreen = SCREEN_SETTINGS;  // Go to Settings Screen
+                  LCD_DisplayNewMainSettingsPage1();
+                  HAL_Delay(300);
+              }
+              break;
+          /*** oro port*/
+
+          case SCREEN_ORO_PORT:
+        	  if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+        	  {
+        		  currentScreen= SCREEN_PAUSED;
+        		  LCD_DisplayPauseScreen();
+        		  HAL_Delay(300);
+        	  }
+          case SCREEN_PAUSED:
+        	  if(KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+        	  {
+        		  LCD_DisplayPharyngealPortSuction();
+        		  HAL_Delay(300);
+        	  }
+
+          /*
+           * Settings Screen
+           */
+          case SCREEN_SETTINGS:
+        	  if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+                  {
+                      currentScreen = previousScreen;  // Go back to the previous screen
+                      switch (previousScreen)
+                      {
+                          case SCREEN_NEW_PATIENT_SELECTION:
+                              LCD_DisplayNewPatientSelection();
+                              break;
+                          case SCREEN_CONFIRM_NEW_PATIENT:
+                              LCD_DisplayConfirmNewPatient();
+                              break;
+                          case SCREEN_CLAMP_TUBES_MAIN:
+                              LCD_DisplayClampTubesMain();
+                              break;
+                          case SCREEN_CLAMP_TUBES_PAUSE:
+                              LCD_DisplayClampTubesPause();
+                              break;
+                          case SCREEN_UNCLAMP_TUBES:
+                              LCD_DisplayUnclampTubes();
+                              break;
+                          case SCREEN_CONFIRM_PARAMETER:
+                              LCD_ConfirmParameterAndBeginSuctionScreen();
+                              break;
+                          case SCREEN_BEGIN_SUCTION:
+                              LCD_DisplayBeginSuction();
+                              break;
+                          default:
+                              // Fallback to New Patient Selection if the previous screen is undefined
+                              currentScreen = SCREEN_NEW_PATIENT_SELECTION;
+                              LCD_DisplayNewPatientSelection();
+                              break;
+                      }
+                      HAL_Delay(300);
+                  }
+                  break;
+
+          default:
+              // Handle undefined states
+              currentScreen = SCREEN_NEW_PATIENT_SELECTION;
+              LCD_DisplayNewPatientSelection();
+              break;
+      }
+  }
 
 
-
-
-//  LCD_DisplayIcon(VERIFY_NEW_PATIENT_BOX_NO_ICON_X, VERIFY_NEW_PATIENT_BOX_NO_ICON_Y, BOX_NO_ICON_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayConfirmNewPatient();
-//  LCD_DisplayImage(ERROR_SCREEN_IMAGE_INDEX);
-//  HAL_Delay(3000);
-//  LCD_DisplayNumber(F_MODE,ALERT_NON_CLEARABLE_ERROR_CODE_X, ALERT_NON_CLEARABLE_ERROR_CODE_Y,ui8AlertMessage, LCD_12X24_FONT_INDEX, BLACK, WHITE);
-
-//  LCD_DisplayNewPatientSelection();
-
-//  LCD_DisplayImage(CONFIRM_NEW_PATIENT_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(ERASING_OLD_DATA_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(LEAKAGE_TEST_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(ALERT_SCREEN_IMAGE_INDEX);
-//  HAL_Delay(3000);
-//  LCD_DisplayText(F_MODE, ALERT_CLEARABLE_MESSAGE_3_X_1,ALERT_CLEARABLE_MESSAGE_3_Y_1,"Sensing Unit Not Connected", LCD_12X24_FONT_INDEX, BLACK, WHITE);
-//  HAL_Delay(3000);
-//  LCD_DisplayText(F_MODE, ALERT_CLEARABLE_MESSAGE_3_X_2,ALERT_CLEARABLE_MESSAGE_3_Y_2,"Check Sensing Unit Connection", LCD_12X24_FONT_INDEX, BLACK, WHITE);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(STAND_BY_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(ERROR_SCREEN_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(SETTINGS_SCREEN_1_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(SETTINGS_SCREEN_2_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(SETTINGS_SHUTDOWN_CONFIRM_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(SHUTDOWN_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(STAND_BY_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(DATA_RETRIEVE_IMAGE_INDEX);
-//  HAL_Delay(5000);
-//  LCD_DisplayImage(RECALIBRATE_SENSOR_IMAGE_INDEX);
-//  HAL_Delay(5000);
 
 
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  /* ------------------------ NEW PATIENT ROUTINE------------------------------*/
+
+//   LCD_DisplayNewPatientSelection();
+//   LCD_DisplayBatteryCharge(75);
+//   // Start with the New Patient Selection Screen
+//
+//   while (1)  // Main Loop
+//   {
+//       /*
+//        * New Patient Selection Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
+//       {
+//           // Highlight Option 1 in the menu
+//           LCD_DisplayNewPatientSelectionMenu(1);
+//           HAL_Delay(300);  // Debounce delay
+//
+//           // Wait for OK button to confirm
+////           if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+////           {
+////               LCD_DisplayConfirmNewPatient();  // Navigate to Confirm New Patient Screen
+////               HAL_Delay(300);  // Debounce delay
+////               continue;  // Restart main loop
+////           }
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
+//       {
+//           // Highlight Option 2 in the menu
+//           LCD_DisplayNewPatientSelectionMenu(2);
+//           HAL_Delay(300);  // Debounce delay
+//
+//           // Wait for OK button to confirm
+//           if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//           {
+//               LCD_DisplayClampTubesMain();  // Navigate to Clamp Tubes Main Screen
+//               HAL_Delay(300);  // Debounce delay
+//               continue;  // Restart main loop
+//           }
+//           else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//           {
+//               LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//               HAL_Delay(300);  // Debounce delay
+//               continue;  // Restart main loop
+//           }
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewMainSettingsPage1();  // Navigate to Settings Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//
+//       /*
+//        * Clamp Tubes Main Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//       {
+//    	   LCD_DisplayConfirmNewPatient();  // Navigate to Clamp Tubes Pause Screen
+//           HAL_Delay(300);  // Debounce delay
+//
+//           // Wait for actions on Clamp Tubes Pause Screen
+//           while (1)
+//           {
+//               if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//               {
+//            	   LCD_DisplayFlashErasingScreen();  // Navigate to Unclamp Tubes Screen
+//                   HAL_Delay(3000);  // 3-second delay
+//                   LCD_DisplayClampTubesMain();  // Navigate to Confirm Parameter Screen
+//                   break;  // Exit Clamp Tubes Pause loop
+//               }
+//               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//               {
+//            	   LCD_DisplayNewPatientSelection();  // Return to Clamp Tubes Main Screen
+//                   HAL_Delay(300);  // Debounce delay
+//                   continue;  // restart main loop
+//               }
+//           }
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//
+//       /*
+//        * Confirmation Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayFlashErasingScreen();  // Navigate to Flash Erasing Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//
+//       /*
+//        * Confirm Parameter And Begin Suction Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayBeginSuction();  // Navigate to Begin Suction Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewMainSettingsPage1();  // Navigate to Settings Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//
+//       /*
+//        * Begin Suction Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayPharyngealPortSuction();  // Navigate to Pharyngeal Port Suction Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewMainSettingsPage1();  // Navigate to Settings Screen
+//           HAL_Delay(300);  // Debounce delay
+//           continue;  // Restart main loop
+//       }
+//   }
+
+//   while (1)  // Main Loop
+//   {
+//       /*
+//        * Handle UP and DOWN Button Clicks on the New Patient Selection Screen
+//        */
+//       if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
+//       {
+//
+//           // Highlight option 1 in the menu
+//           LCD_DisplayNewPatientSelectionMenu(1);
+//           HAL_Delay(300);  // Debounce delay
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_SETTINGS)== BUTTON_PRESSED)
+//       {
+//     	  LCD_DisplayImage(SETTINGS_SCREEN_1_IMAGE_INDEX);
+//       }
+//       else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
+//       {
+//           ui8NewPatientStatus = FALSE;
+//           ui8NewTubeStatus = FALSE;
+//
+//           // Highlight option 2 in the menu
+//           LCD_DisplayNewPatientSelectionMenu(2);
+//           HAL_Delay(300);  // Debounce delay
+//
+//           // Wait for OK button to navigate to Clamp Tubes Main
+//           while (1)
+//           {
+//               if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//               {
+//                   LCD_DisplayClampTubesMain();  // Navigate to Clamp Tubes Main
+//                   HAL_Delay(300);  // Debounce delay
+//
+//                   // Handle actions on Clamp Tubes Main Screen
+//                   while (1)
+//                   {
+//                       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//                       {
+//                           LCD_DisplayClampTubesPause();  // Navigate to Clamp Tubes Pause
+//                           HAL_Delay(300);  // Debounce delay
+//
+//                           // Handle actions on Clamp Tubes Pause Screen
+//                           while (1)
+//                           {
+//                               if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//                               {
+//                                   LCD_DisplayClampTubesMain();  // Return to Clamp Tubes Main
+//                                   HAL_Delay(300);  // Debounce delay
+//                                   break;  // Exit Clamp Tubes Pause loop
+//                               }
+//                               else if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//                               {
+//                                   LCD_DisplayUnclampTubes();  // Navigate to Unclamp Tubes Screen
+//                                   HAL_Delay(300);  // Debounce delay
+//                                   break;  // Exit Clamp Tubes Pause loop
+//                               }
+//                           }
+//                           break;  // Exit Clamp Tubes Main loop after navigating
+//                       }
+//                       else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//                       {
+//                           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//                           HAL_Delay(300);  // Debounce delay
+//                           break;  // Exit Clamp Tubes Main loop
+//                       }
+//                   }
+//                   break;  // Exit DOWN button handling loop
+//               }
+//               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//               {
+//                   LCD_DisplayNewPatientSelection();  // Go back to New Patient Selection
+//                   HAL_Delay(300);  // Debounce delay
+//                   break;  // Exit the loop
+//               }
+//           }
+//       }
+//
+//       /*
+//        * Handle OK Button Press
+//        */
+//       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayConfirmNewPatient();  // Open confirmation screen
+//
+//           // Wait for further user commands on the confirmation screen
+//           while (1)
+//           {
+//               if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
+//               {
+//                   LCD_DisplayFlashErasingScreen();  // Navigate to Flash Erasing Screen
+//                   HAL_Delay(300);
+//                   break;  // Exit the inner loop
+//               }
+//
+//               if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//               {
+//                   LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//                   HAL_Delay(300);
+//                   break;  // Exit the inner loop
+//               }
+//           }
+//       }
+//
+//       /*
+//        * Handle BACK Button Press
+//        */
+//       if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
+//       {
+//           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
+//           HAL_Delay(300);  // Debounce delay
+//       }
+//   }
 
 /* -------------------------------SETTINGS PAGE TESTING-------------------------*/
 //  LCD_DisplayImage(SETTINGS_SCREEN_1_IMAGE_INDEX);
@@ -422,124 +795,6 @@ int main(void)
 //      }
 //  }
 
- /* ------------------------ NEW PATIENT ROUTINE------------------------------*/
-
-//  LCD_DisplayNewPatientSelection();
-//
-//  while (1)  // Main Loop
-//  {
-//      /*
-//       * Handle UP and DOWN Button Clicks on the New Patient Selection Screen
-//       */
-//      if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
-//      {
-//          ui8NewPatientStatus = TRUE;
-//          ui8NewTubeStatus = TRUE;
-//
-//          // Highlight option 1 in the menu
-//          LCD_DisplayNewPatientSelectionMenu(1);
-//          HAL_Delay(300);  // Debounce delay
-//      }
-//      else if (KBD_ButtonStatus(BUTTON_SETTINGS)== BUTTON_PRESSED)
-//      {
-//    	  LCD_DisplayImage(SETTINGS_SCREEN_1_IMAGE_INDEX);
-//      }
-//      else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
-//      {
-//          ui8NewPatientStatus = FALSE;
-//          ui8NewTubeStatus = FALSE;
-//
-//          // Highlight option 2 in the menu
-//          LCD_DisplayNewPatientSelectionMenu(2);
-//          HAL_Delay(300);  // Debounce delay
-//
-//          // Wait for OK button to navigate to Clamp Tubes Main
-//          while (1)
-//          {
-//              if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//              {
-//                  LCD_DisplayClampTubesMain();  // Navigate to Clamp Tubes Main
-//                  HAL_Delay(300);  // Debounce delay
-//
-//                  // Handle actions on Clamp Tubes Main Screen
-//                  while (1)
-//                  {
-//                      if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//                      {
-//                          LCD_DisplayClampTubesPause();  // Navigate to Clamp Tubes Pause
-//                          HAL_Delay(300);  // Debounce delay
-//
-//                          // Handle actions on Clamp Tubes Pause Screen
-//                          while (1)
-//                          {
-//                              if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//                              {
-//                                  LCD_DisplayClampTubesMain();  // Return to Clamp Tubes Main
-//                                  HAL_Delay(300);  // Debounce delay
-//                                  break;  // Exit Clamp Tubes Pause loop
-//                              }
-//                              else if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//                              {
-//                                  LCD_DisplayUnclampTubes();  // Navigate to Unclamp Tubes Screen
-//                                  HAL_Delay(300);  // Debounce delay
-//                                  break;  // Exit Clamp Tubes Pause loop
-//                              }
-//                          }
-//                          break;  // Exit Clamp Tubes Main loop after navigating
-//                      }
-//                      else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//                      {
-//                          LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//                          HAL_Delay(300);  // Debounce delay
-//                          break;  // Exit Clamp Tubes Main loop
-//                      }
-//                  }
-//                  break;  // Exit DOWN button handling loop
-//              }
-//              else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//              {
-//                  LCD_DisplayNewPatientSelection();  // Go back to New Patient Selection
-//                  HAL_Delay(300);  // Debounce delay
-//                  break;  // Exit the loop
-//              }
-//          }
-//      }
-//
-//      /*
-//       * Handle OK Button Press
-//       */
-//      if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//      {
-//          LCD_DisplayConfirmNewPatient();  // Open confirmation screen
-//
-//          // Wait for further user commands on the confirmation screen
-//          while (1)
-//          {
-//              if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//              {
-//                  LCD_DisplayFlashErasingScreen();  // Navigate to Flash Erasing Screen
-//                  HAL_Delay(300);
-//                  break;  // Exit the inner loop
-//              }
-//
-//              if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//              {
-//                  LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//                  HAL_Delay(300);
-//                  break;  // Exit the inner loop
-//              }
-//          }
-//      }
-//
-//      /*
-//       * Handle BACK Button Press
-//       */
-//      if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//      {
-//          LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//          HAL_Delay(300);  // Debounce delay
-//      }
-//  }
 
     /* USER CODE BEGIN 3 */
 
