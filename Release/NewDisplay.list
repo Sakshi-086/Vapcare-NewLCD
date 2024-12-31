@@ -31,19 +31,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  13 .debug_abbrev 00003741  00000000  00000000  0001d622  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_loclists 00009f0f  00000000  00000000  00020d63  2**0
+ 14 .debug_loclists 00009f19  00000000  00000000  00020d63  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00001070  00000000  00000000  0002ac72  2**0
+ 15 .debug_aranges 00001070  00000000  00000000  0002ac7c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 000010ef  00000000  00000000  0002bce2  2**0
+ 16 .debug_rnglists 000010ef  00000000  00000000  0002bcec  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_line   000175b6  00000000  00000000  0002cdd1  2**0
+ 17 .debug_line   000175c3  00000000  00000000  0002cddb  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_str    0000528e  00000000  00000000  00044387  2**0
+ 18 .debug_str    0000528e  00000000  00000000  0004439e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .comment      00000043  00000000  00000000  00049615  2**0
+ 19 .comment      00000043  00000000  00000000  0004962c  2**0
                   CONTENTS, READONLY
- 20 .debug_frame  000032a0  00000000  00000000  00049658  2**2
+ 20 .debug_frame  000032a0  00000000  00000000  00049670  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1749,12 +1749,12 @@ void Error_Handler(void)
  8000be4:	4f75      	ldr	r7, [pc, #468]	@ (8000dbc <main+0x230>)
       switch (currentScreen)
  8000be6:	2e0d      	cmp	r6, #13
- 8000be8:	f200 80d7 	bhi.w	8000d9a <main+0x20e>
+ 8000be8:	f200 80d8 	bhi.w	8000d9c <main+0x210>
  8000bec:	e8df f006 	tbb	[pc, r6]
- 8000bf0:	2bd51ed7 	.word	0x2bd51ed7
- 8000bf4:	4f44d536 	.word	0x4f44d536
- 8000bf8:	d5d55689 	.word	0xd5d55689
- 8000bfc:	61d5      	.short	0x61d5
+ 8000bf0:	2bd61ed8 	.word	0x2bd61ed8
+ 8000bf4:	4f44d636 	.word	0x4f44d636
+ 8000bf8:	d6d6568a 	.word	0xd6d6568a
+ 8000bfc:	61d6      	.short	0x61d6
               else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
  8000bfe:	2003      	movs	r0, #3
  8000c00:	f7ff fde2 	bl	80007c8 <KBD_ButtonStatus>
@@ -1765,16 +1765,16 @@ void Error_Handler(void)
             	  currentOption = 2;
  8000c0a:	f8c7 8000 	str.w	r8, [r7]
                   LCD_DisplayNewPatientSelectionMenu(2);  // Highlight Option 2
- 8000c0e:	e0cd      	b.n	8000dac <main+0x220>
+ 8000c0e:	e0ce      	b.n	8000dae <main+0x222>
               else if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
  8000c10:	2004      	movs	r0, #4
  8000c12:	f7ff fdd9 	bl	80007c8 <KBD_ButtonStatus>
  8000c16:	2800      	cmp	r0, #0
- 8000c18:	d160      	bne.n	8000cdc <main+0x150>
+ 8000c18:	d161      	bne.n	8000cde <main+0x152>
             	  if(currentOption == 1)
  8000c1a:	683b      	ldr	r3, [r7, #0]
  8000c1c:	2b01      	cmp	r3, #1
- 8000c1e:	d154      	bne.n	8000cca <main+0x13e>
+ 8000c1e:	d155      	bne.n	8000ccc <main+0x140>
             		  LCD_DisplayConfirmNewPatient();
  8000c20:	f7ff ff22 	bl	8000a68 <LCD_DisplayConfirmNewPatient>
             		  HAL_Delay(300);
@@ -1784,7 +1784,7 @@ void Error_Handler(void)
  8000c2c:	2004      	movs	r0, #4
  8000c2e:	f7ff fdcb 	bl	80007c8 <KBD_ButtonStatus>
  8000c32:	2800      	cmp	r0, #0
- 8000c34:	d175      	bne.n	8000d22 <main+0x196>
+ 8000c34:	d176      	bne.n	8000d24 <main+0x198>
                   LCD_DisplayFlashErasingScreen();
  8000c36:	f7ff ff1a 	bl	8000a6e <LCD_DisplayFlashErasingScreen>
                   HAL_Delay(2000);
@@ -1796,7 +1796,7 @@ void Error_Handler(void)
  8000c46:	2004      	movs	r0, #4
  8000c48:	f7ff fdbe 	bl	80007c8 <KBD_ButtonStatus>
  8000c4c:	2800      	cmp	r0, #0
- 8000c4e:	d16f      	bne.n	8000d30 <main+0x1a4>
+ 8000c4e:	d170      	bne.n	8000d32 <main+0x1a6>
                   LCD_DisplayClampTubesPause();
  8000c50:	f7ff ff13 	bl	8000a7a <LCD_DisplayClampTubesPause>
                   HAL_Delay(300);
@@ -1806,7 +1806,7 @@ void Error_Handler(void)
  8000c5c:	2004      	movs	r0, #4
  8000c5e:	f7ff fdb3 	bl	80007c8 <KBD_ButtonStatus>
  8000c62:	2800      	cmp	r0, #0
- 8000c64:	d16a      	bne.n	8000d3c <main+0x1b0>
+ 8000c64:	d16b      	bne.n	8000d3e <main+0x1b2>
                   LCD_DisplayUnclampTubes();
  8000c66:	f7ff ff0b 	bl	8000a80 <LCD_DisplayUnclampTubes>
                   HAL_Delay(1000);  // 3-second delay
@@ -1820,7 +1820,7 @@ void Error_Handler(void)
  8000c78:	2006      	movs	r0, #6
  8000c7a:	f7ff fda5 	bl	80007c8 <KBD_ButtonStatus>
  8000c7e:	2800      	cmp	r0, #0
- 8000c80:	d162      	bne.n	8000d48 <main+0x1bc>
+ 8000c80:	d163      	bne.n	8000d4a <main+0x1be>
                   LCD_DisplayBeginSuction();
  8000c82:	f7ff ff3e 	bl	8000b02 <LCD_DisplayBeginSuction>
                   HAL_Delay(300);
@@ -1830,14 +1830,14 @@ void Error_Handler(void)
  8000c8e:	2006      	movs	r0, #6
  8000c90:	f7ff fd9a 	bl	80007c8 <KBD_ButtonStatus>
  8000c94:	2800      	cmp	r0, #0
- 8000c96:	d15d      	bne.n	8000d54 <main+0x1c8>
+ 8000c96:	d15e      	bne.n	8000d56 <main+0x1ca>
                   LCD_DisplayPharyngealPortSuction();  // Navigate to Pharyngeal Port Suction
  8000c98:	f7ff ff30 	bl	8000afc <LCD_DisplayPharyngealPortSuction>
         	  if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
  8000c9c:	2006      	movs	r0, #6
  8000c9e:	f7ff fd93 	bl	80007c8 <KBD_ButtonStatus>
  8000ca2:	2800      	cmp	r0, #0
- 8000ca4:	d15c      	bne.n	8000d60 <main+0x1d4>
+ 8000ca4:	d15d      	bne.n	8000d62 <main+0x1d6>
         		  LCD_DisplayPauseScreen();
  8000ca6:	f7ff ff2f 	bl	8000b08 <LCD_DisplayPauseScreen>
         		  HAL_Delay(300);
@@ -1848,136 +1848,137 @@ void Error_Handler(void)
         	  if(KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
  8000cb4:	2006      	movs	r0, #6
  8000cb6:	f7ff fd87 	bl	80007c8 <KBD_ButtonStatus>
- 8000cba:	bb10      	cbnz	r0, 8000d02 <main+0x176>
+ 8000cba:	bb18      	cbnz	r0, 8000d04 <main+0x178>
         		  LCD_DisplayPharyngealPortSuction();
  8000cbc:	f7ff ff1e 	bl	8000afc <LCD_DisplayPharyngealPortSuction>
         		  HAL_Delay(300);
  8000cc0:	f44f 7096 	mov.w	r0, #300	@ 0x12c
  8000cc4:	f000 fbc8 	bl	8001458 <HAL_Delay>
- 8000cc8:	e01b      	b.n	8000d02 <main+0x176>
+        		  currentScreen= SCREEN_ORO_PORT;
+ 8000cc8:	2609      	movs	r6, #9
+ 8000cca:	e01b      	b.n	8000d04 <main+0x178>
             	  else if (currentOption == 2){
- 8000cca:	2b02      	cmp	r3, #2
- 8000ccc:	d167      	bne.n	8000d9e <main+0x212>
+ 8000ccc:	2b02      	cmp	r3, #2
+ 8000cce:	d167      	bne.n	8000da0 <main+0x214>
                   LCD_DisplayClampTubesMain();
- 8000cce:	f7ff fed1 	bl	8000a74 <LCD_DisplayClampTubesMain>
+ 8000cd0:	f7ff fed0 	bl	8000a74 <LCD_DisplayClampTubesMain>
                   HAL_Delay(300);
- 8000cd2:	f44f 7096 	mov.w	r0, #300	@ 0x12c
- 8000cd6:	f000 fbbf 	bl	8001458 <HAL_Delay>
- 8000cda:	e7b4      	b.n	8000c46 <main+0xba>
+ 8000cd4:	f44f 7096 	mov.w	r0, #300	@ 0x12c
+ 8000cd8:	f000 fbbe 	bl	8001458 <HAL_Delay>
+ 8000cdc:	e7b3      	b.n	8000c46 <main+0xba>
               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
- 8000cdc:	2005      	movs	r0, #5
- 8000cde:	f7ff fd73 	bl	80007c8 <KBD_ButtonStatus>
- 8000ce2:	b910      	cbnz	r0, 8000cea <main+0x15e>
+ 8000cde:	2005      	movs	r0, #5
+ 8000ce0:	f7ff fd72 	bl	80007c8 <KBD_ButtonStatus>
+ 8000ce4:	b910      	cbnz	r0, 8000cec <main+0x160>
                   LCD_DisplayNewPatientSelection();
- 8000ce4:	f7ff fea4 	bl	8000a30 <LCD_DisplayNewPatientSelection>
- 8000ce8:	e062      	b.n	8000db0 <main+0x224>
+ 8000ce6:	f7ff fea3 	bl	8000a30 <LCD_DisplayNewPatientSelection>
+ 8000cea:	e062      	b.n	8000db2 <main+0x226>
               else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
- 8000cea:	2008      	movs	r0, #8
- 8000cec:	f7ff fd6c 	bl	80007c8 <KBD_ButtonStatus>
- 8000cf0:	2800      	cmp	r0, #0
- 8000cf2:	d154      	bne.n	8000d9e <main+0x212>
+ 8000cec:	2008      	movs	r0, #8
+ 8000cee:	f7ff fd6b 	bl	80007c8 <KBD_ButtonStatus>
+ 8000cf2:	2800      	cmp	r0, #0
+ 8000cf4:	d154      	bne.n	8000da0 <main+0x214>
                   LCD_DisplayNewMainSettingsPage1();
- 8000cf4:	f7ff feff 	bl	8000af6 <LCD_DisplayNewMainSettingsPage1>
+ 8000cf6:	f7ff fefe 	bl	8000af6 <LCD_DisplayNewMainSettingsPage1>
                   HAL_Delay(300);
- 8000cf8:	f44f 7096 	mov.w	r0, #300	@ 0x12c
- 8000cfc:	f000 fbac 	bl	8001458 <HAL_Delay>
-      switch (currentScreen)
- 8000d00:	2608      	movs	r6, #8
+ 8000cfa:	f44f 7096 	mov.w	r0, #300	@ 0x12c
+ 8000cfe:	f000 fbab 	bl	8001458 <HAL_Delay>
+        		  currentScreen= SCREEN_ORO_PORT;
+ 8000d02:	2608      	movs	r6, #8
         	  if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
- 8000d02:	2005      	movs	r0, #5
- 8000d04:	f7ff fd60 	bl	80007c8 <KBD_ButtonStatus>
- 8000d08:	4604      	mov	r4, r0
- 8000d0a:	2800      	cmp	r0, #0
- 8000d0c:	f47f af6b 	bne.w	8000be6 <main+0x5a>
+ 8000d04:	2005      	movs	r0, #5
+ 8000d06:	f7ff fd5f 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d0a:	4604      	mov	r4, r0
+ 8000d0c:	2800      	cmp	r0, #0
+ 8000d0e:	f47f af6a 	bne.w	8000be6 <main+0x5a>
                       switch (previousScreen)
- 8000d10:	1e6b      	subs	r3, r5, #1
- 8000d12:	2b06      	cmp	r3, #6
- 8000d14:	d826      	bhi.n	8000d64 <main+0x1d8>
- 8000d16:	e8df f003 	tbb	[pc, r3]
- 8000d1a:	252d      	.short	0x252d
- 8000d1c:	3a373431 	.word	0x3a373431
- 8000d20:	3d          	.byte	0x3d
- 8000d21:	00          	.byte	0x00
+ 8000d12:	1e6b      	subs	r3, r5, #1
+ 8000d14:	2b06      	cmp	r3, #6
+ 8000d16:	d826      	bhi.n	8000d66 <main+0x1da>
+ 8000d18:	e8df f003 	tbb	[pc, r3]
+ 8000d1c:	3431252d 	.word	0x3431252d
+ 8000d20:	3a37      	.short	0x3a37
+ 8000d22:	3d          	.byte	0x3d
+ 8000d23:	00          	.byte	0x00
               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
- 8000d22:	2005      	movs	r0, #5
- 8000d24:	f7ff fd50 	bl	80007c8 <KBD_ButtonStatus>
- 8000d28:	2800      	cmp	r0, #0
- 8000d2a:	f47f af7f 	bne.w	8000c2c <main+0xa0>
- 8000d2e:	e7d9      	b.n	8000ce4 <main+0x158>
+ 8000d24:	2005      	movs	r0, #5
+ 8000d26:	f7ff fd4f 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d2a:	2800      	cmp	r0, #0
+ 8000d2c:	f47f af7e 	bne.w	8000c2c <main+0xa0>
+ 8000d30:	e7d9      	b.n	8000ce6 <main+0x15a>
               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
- 8000d30:	2005      	movs	r0, #5
- 8000d32:	f7ff fd49 	bl	80007c8 <KBD_ButtonStatus>
- 8000d36:	2800      	cmp	r0, #0
- 8000d38:	d185      	bne.n	8000c46 <main+0xba>
- 8000d3a:	e7d3      	b.n	8000ce4 <main+0x158>
+ 8000d32:	2005      	movs	r0, #5
+ 8000d34:	f7ff fd48 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d38:	2800      	cmp	r0, #0
+ 8000d3a:	d184      	bne.n	8000c46 <main+0xba>
+ 8000d3c:	e7d3      	b.n	8000ce6 <main+0x15a>
               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
- 8000d3c:	2005      	movs	r0, #5
- 8000d3e:	f7ff fd43 	bl	80007c8 <KBD_ButtonStatus>
- 8000d42:	2800      	cmp	r0, #0
- 8000d44:	d18a      	bne.n	8000c5c <main+0xd0>
- 8000d46:	e7c2      	b.n	8000cce <main+0x142>
+ 8000d3e:	2005      	movs	r0, #5
+ 8000d40:	f7ff fd42 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d44:	2800      	cmp	r0, #0
+ 8000d46:	d189      	bne.n	8000c5c <main+0xd0>
+ 8000d48:	e7c2      	b.n	8000cd0 <main+0x144>
               else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
- 8000d48:	2008      	movs	r0, #8
- 8000d4a:	f7ff fd3d 	bl	80007c8 <KBD_ButtonStatus>
- 8000d4e:	2800      	cmp	r0, #0
- 8000d50:	d192      	bne.n	8000c78 <main+0xec>
- 8000d52:	e7cf      	b.n	8000cf4 <main+0x168>
+ 8000d4a:	2008      	movs	r0, #8
+ 8000d4c:	f7ff fd3c 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d50:	2800      	cmp	r0, #0
+ 8000d52:	d191      	bne.n	8000c78 <main+0xec>
+ 8000d54:	e7cf      	b.n	8000cf6 <main+0x16a>
               else if (KBD_ButtonStatus(BUTTON_SETTINGS) == BUTTON_PRESSED)
- 8000d54:	2008      	movs	r0, #8
- 8000d56:	f7ff fd37 	bl	80007c8 <KBD_ButtonStatus>
- 8000d5a:	2800      	cmp	r0, #0
- 8000d5c:	d197      	bne.n	8000c8e <main+0x102>
- 8000d5e:	e7c9      	b.n	8000cf4 <main+0x168>
- 8000d60:	2609      	movs	r6, #9
- 8000d62:	e7a7      	b.n	8000cb4 <main+0x128>
+ 8000d56:	2008      	movs	r0, #8
+ 8000d58:	f7ff fd36 	bl	80007c8 <KBD_ButtonStatus>
+ 8000d5c:	2800      	cmp	r0, #0
+ 8000d5e:	d196      	bne.n	8000c8e <main+0x102>
+ 8000d60:	e7c9      	b.n	8000cf6 <main+0x16a>
+ 8000d62:	2609      	movs	r6, #9
+ 8000d64:	e7a6      	b.n	8000cb4 <main+0x128>
                               LCD_DisplayNewPatientSelection();
- 8000d64:	f7ff fe64 	bl	8000a30 <LCD_DisplayNewPatientSelection>
+ 8000d66:	f7ff fe63 	bl	8000a30 <LCD_DisplayNewPatientSelection>
                       HAL_Delay(300);
- 8000d68:	f44f 7096 	mov.w	r0, #300	@ 0x12c
- 8000d6c:	f000 fb74 	bl	8001458 <HAL_Delay>
- 8000d70:	4626      	mov	r6, r4
- 8000d72:	e738      	b.n	8000be6 <main+0x5a>
+ 8000d6a:	f44f 7096 	mov.w	r0, #300	@ 0x12c
+ 8000d6e:	f000 fb73 	bl	8001458 <HAL_Delay>
+ 8000d72:	4626      	mov	r6, r4
+ 8000d74:	e737      	b.n	8000be6 <main+0x5a>
                               LCD_DisplayConfirmNewPatient();
- 8000d74:	f7ff fe78 	bl	8000a68 <LCD_DisplayConfirmNewPatient>
+ 8000d76:	f7ff fe77 	bl	8000a68 <LCD_DisplayConfirmNewPatient>
                       currentScreen = previousScreen;  // Go back to the previous screen
- 8000d78:	462c      	mov	r4, r5
+ 8000d7a:	462c      	mov	r4, r5
                               break;
- 8000d7a:	e7f5      	b.n	8000d68 <main+0x1dc>
+ 8000d7c:	e7f5      	b.n	8000d6a <main+0x1de>
                               LCD_DisplayClampTubesMain();
- 8000d7c:	f7ff fe7a 	bl	8000a74 <LCD_DisplayClampTubesMain>
+ 8000d7e:	f7ff fe79 	bl	8000a74 <LCD_DisplayClampTubesMain>
                               break;
- 8000d80:	e7fa      	b.n	8000d78 <main+0x1ec>
+ 8000d82:	e7fa      	b.n	8000d7a <main+0x1ee>
                               LCD_DisplayClampTubesPause();
- 8000d82:	f7ff fe7a 	bl	8000a7a <LCD_DisplayClampTubesPause>
+ 8000d84:	f7ff fe79 	bl	8000a7a <LCD_DisplayClampTubesPause>
                               break;
- 8000d86:	e7f7      	b.n	8000d78 <main+0x1ec>
+ 8000d88:	e7f7      	b.n	8000d7a <main+0x1ee>
                               LCD_DisplayUnclampTubes();
- 8000d88:	f7ff fe7a 	bl	8000a80 <LCD_DisplayUnclampTubes>
+ 8000d8a:	f7ff fe79 	bl	8000a80 <LCD_DisplayUnclampTubes>
                               break;
- 8000d8c:	e7f4      	b.n	8000d78 <main+0x1ec>
+ 8000d8e:	e7f4      	b.n	8000d7a <main+0x1ee>
                               LCD_ConfirmParameterAndBeginSuctionScreen();
- 8000d8e:	f7ff feaf 	bl	8000af0 <LCD_ConfirmParameterAndBeginSuctionScreen>
+ 8000d90:	f7ff feae 	bl	8000af0 <LCD_ConfirmParameterAndBeginSuctionScreen>
                               break;
- 8000d92:	e7f1      	b.n	8000d78 <main+0x1ec>
+ 8000d94:	e7f1      	b.n	8000d7a <main+0x1ee>
                               LCD_DisplayBeginSuction();
- 8000d94:	f7ff feb5 	bl	8000b02 <LCD_DisplayBeginSuction>
- 8000d98:	e7ee      	b.n	8000d78 <main+0x1ec>
+ 8000d96:	f7ff feb4 	bl	8000b02 <LCD_DisplayBeginSuction>
+ 8000d9a:	e7ee      	b.n	8000d7a <main+0x1ee>
               LCD_DisplayNewPatientSelection();
- 8000d9a:	f7ff fe49 	bl	8000a30 <LCD_DisplayNewPatientSelection>
+ 8000d9c:	f7ff fe48 	bl	8000a30 <LCD_DisplayNewPatientSelection>
               if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
- 8000d9e:	2002      	movs	r0, #2
- 8000da0:	f7ff fd12 	bl	80007c8 <KBD_ButtonStatus>
- 8000da4:	2801      	cmp	r0, #1
- 8000da6:	f47f af2a 	bne.w	8000bfe <main+0x72>
+ 8000da0:	2002      	movs	r0, #2
+ 8000da2:	f7ff fd11 	bl	80007c8 <KBD_ButtonStatus>
+ 8000da6:	2801      	cmp	r0, #1
+ 8000da8:	f47f af29 	bne.w	8000bfe <main+0x72>
             	  currentOption = 1;
- 8000daa:	6038      	str	r0, [r7, #0]
+ 8000dac:	6038      	str	r0, [r7, #0]
                   LCD_DisplayNewPatientSelectionMenu(2);  // Highlight Option 2
- 8000dac:	f7ff fe43 	bl	8000a36 <LCD_DisplayNewPatientSelectionMenu>
+ 8000dae:	f7ff fe42 	bl	8000a36 <LCD_DisplayNewPatientSelectionMenu>
                   HAL_Delay(300);
- 8000db0:	f44f 7096 	mov.w	r0, #300	@ 0x12c
- 8000db4:	f000 fb50 	bl	8001458 <HAL_Delay>
- 8000db8:	e7f1      	b.n	8000d9e <main+0x212>
- 8000dba:	bf00      	nop
+ 8000db2:	f44f 7096 	mov.w	r0, #300	@ 0x12c
+ 8000db6:	f000 fb4f 	bl	8001458 <HAL_Delay>
+ 8000dba:	e7f1      	b.n	8000da0 <main+0x214>
  8000dbc:	20000040 	.word	0x20000040
 
 08000dc0 <Error_Handler>:

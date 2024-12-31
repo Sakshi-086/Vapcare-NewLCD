@@ -281,6 +281,7 @@ int main(void)
           /*** oro port*/
 
           case SCREEN_ORO_PORT:
+//        	  LCD_DisplayPharyngealPortSuction();
         	  if (KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
         	  {
         		  currentScreen= SCREEN_PAUSED;
@@ -290,6 +291,7 @@ int main(void)
           case SCREEN_PAUSED:
         	  if(KBD_ButtonStatus(BUTTON_START_PAUSE) == BUTTON_PRESSED)
         	  {
+        		  currentScreen= SCREEN_ORO_PORT;
         		  LCD_DisplayPharyngealPortSuction();
         		  HAL_Delay(300);
         	  }
@@ -480,119 +482,6 @@ int main(void)
 //           LCD_DisplayNewMainSettingsPage1();  // Navigate to Settings Screen
 //           HAL_Delay(300);  // Debounce delay
 //           continue;  // Restart main loop
-//       }
-//   }
-
-//   while (1)  // Main Loop
-//   {
-//       /*
-//        * Handle UP and DOWN Button Clicks on the New Patient Selection Screen
-//        */
-//       if (KBD_ButtonStatus(BUTTON_UP) == BUTTON_CLICKED)
-//       {
-//
-//           // Highlight option 1 in the menu
-//           LCD_DisplayNewPatientSelectionMenu(1);
-//           HAL_Delay(300);  // Debounce delay
-//       }
-//       else if (KBD_ButtonStatus(BUTTON_SETTINGS)== BUTTON_PRESSED)
-//       {
-//     	  LCD_DisplayImage(SETTINGS_SCREEN_1_IMAGE_INDEX);
-//       }
-//       else if (KBD_ButtonStatus(BUTTON_DOWN) == BUTTON_CLICKED)
-//       {
-//           ui8NewPatientStatus = FALSE;
-//           ui8NewTubeStatus = FALSE;
-//
-//           // Highlight option 2 in the menu
-//           LCD_DisplayNewPatientSelectionMenu(2);
-//           HAL_Delay(300);  // Debounce delay
-//
-//           // Wait for OK button to navigate to Clamp Tubes Main
-//           while (1)
-//           {
-//               if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//               {
-//                   LCD_DisplayClampTubesMain();  // Navigate to Clamp Tubes Main
-//                   HAL_Delay(300);  // Debounce delay
-//
-//                   // Handle actions on Clamp Tubes Main Screen
-//                   while (1)
-//                   {
-//                       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//                       {
-//                           LCD_DisplayClampTubesPause();  // Navigate to Clamp Tubes Pause
-//                           HAL_Delay(300);  // Debounce delay
-//
-//                           // Handle actions on Clamp Tubes Pause Screen
-//                           while (1)
-//                           {
-//                               if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//                               {
-//                                   LCD_DisplayClampTubesMain();  // Return to Clamp Tubes Main
-//                                   HAL_Delay(300);  // Debounce delay
-//                                   break;  // Exit Clamp Tubes Pause loop
-//                               }
-//                               else if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//                               {
-//                                   LCD_DisplayUnclampTubes();  // Navigate to Unclamp Tubes Screen
-//                                   HAL_Delay(300);  // Debounce delay
-//                                   break;  // Exit Clamp Tubes Pause loop
-//                               }
-//                           }
-//                           break;  // Exit Clamp Tubes Main loop after navigating
-//                       }
-//                       else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//                       {
-//                           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//                           HAL_Delay(300);  // Debounce delay
-//                           break;  // Exit Clamp Tubes Main loop
-//                       }
-//                   }
-//                   break;  // Exit DOWN button handling loop
-//               }
-//               else if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//               {
-//                   LCD_DisplayNewPatientSelection();  // Go back to New Patient Selection
-//                   HAL_Delay(300);  // Debounce delay
-//                   break;  // Exit the loop
-//               }
-//           }
-//       }
-//
-//       /*
-//        * Handle OK Button Press
-//        */
-//       if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//       {
-//           LCD_DisplayConfirmNewPatient();  // Open confirmation screen
-//
-//           // Wait for further user commands on the confirmation screen
-//           while (1)
-//           {
-//               if (KBD_ButtonStatus(BUTTON_OK) == BUTTON_PRESSED)
-//               {
-//                   LCD_DisplayFlashErasingScreen();  // Navigate to Flash Erasing Screen
-//                   HAL_Delay(300);
-//                   break;  // Exit the inner loop
-//               }
-//
-//               if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//               {
-//                   LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//                   HAL_Delay(300);
-//                   break;  // Exit the inner loop
-//               }
-//           }
-//       }
-//
-//       /*
-//        * Handle BACK Button Press
-//        */
-//       if (KBD_ButtonStatus(BUTTON_BACK) == BUTTON_PRESSED)
-//       {
-//           LCD_DisplayNewPatientSelection();  // Return to New Patient Selection
-//           HAL_Delay(300);  // Debounce delay
 //       }
 //   }
 
